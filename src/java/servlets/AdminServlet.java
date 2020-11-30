@@ -60,14 +60,6 @@ public class AdminServlet extends HttpServlet {
                 {
                     request.setAttribute("useractive", "checked=''");
                 }
-                if(user.getIsAdmin()== true)
-                {
-                    request.setAttribute("useradmin", true);
-                }
-                else
-                {
-                    request.setAttribute("useradmin", false);
-                }
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

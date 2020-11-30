@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,6 +33,21 @@
                 Email: <input type="email" name="email" value="${selectedUser.email}"><br>
                 First Name: <input type="text" name="firstname" value="${selectedUser.firstName}"><br>
                 Last Name: <input type="text" name="lastname" value="${selectedUser.lastName}"><br>
+                <br>
+                <br>
+                <h4>Deactivate User account (Warning, if you deactivate the account you must contact an admin. Un-check to continue to deactivate)</h4>
+                <c:choose>
+                     <c:when test="${selectedUser.active==true}">
+                       <input type="checkbox" id="chk" name="useractive" 
+                            value="true" checked="checked"/>
+                     </c:when>
+                     <c:otherwise>
+                         <input type="checkbox" id="chk" name="useractive" 
+                               value="false"/>
+                     </c:otherwise>
+                  </c:choose>
+                       <br>
+                       <br>
                 <input type="submit" name="action" value="Save">
         </form>
                 <br>

@@ -86,7 +86,7 @@ public class RegisterServlet extends HttpServlet {
                 try {
                     userDB.insert(newUser);
                     session.setAttribute("displayMessage", "Account successfully created! You can now login.");
-                    response.sendRedirect("login");
+                    response.sendRedirect("login?logout");
                 } catch (Exception ex) {
                     Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

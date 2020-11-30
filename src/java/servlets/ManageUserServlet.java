@@ -38,6 +38,14 @@ public class ManageUserServlet extends HttpServlet {
         user = userDB.getUser(username);
         
         request.setAttribute("selectedUser", user);
+         if(user.getActive() == true)
+                {
+                    request.setAttribute("useractive", "checked='checked'");
+                }
+                else
+                {
+                    request.setAttribute("useractive", "checked=''");
+                }
         request.setAttribute("username", username);
         getServletContext().getRequestDispatcher("/WEB-INF/manageuser.jsp").forward(request, response);
     }
@@ -64,11 +72,30 @@ public class ManageUserServlet extends HttpServlet {
             String email = request.getParameter("email");
             String firstname = request.getParameter("firstname");
             String lastname = request.getParameter("lastname");
+            Boolean editisactive = Boolean.parseBoolean(request.getParameter("useractive"));
+            boolean userIsActive = false;
+            
+            if(editisactive == true)
+            {
+                userIsActive = true;
+            }
+            else
+            {
+                userIsActive = false;
+            }
             
             try {
-                us.update(username, password, firstname, lastname,email, user.getActive(), user.getIsAdmin());
+                us.update(username, password, firstname, lastname,email, userIsActive, user.getIsAdmin());
                 request.setAttribute("message", "Account has been successfully updated!");
+                if(userIsActive == false)
+                {
+                    session.setAttribute("displayMessage", "Account successfully been deactivated.");
+                    response.sendRedirect("login");
+                }
+                else
+                {
                 doGet(request, response);
+                }
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("message", "An error has occoured, try again later!");
