@@ -1,0 +1,15 @@
+admin,password
+adam,password
+betty,password
+carl,password
+don,password
+earl,password
+fred,password
+grace,password
+holly,password
+isabell,password
+john,password
+kitty,password
+lily,password
+mark,password
+nancy,password
