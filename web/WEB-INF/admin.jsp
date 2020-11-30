@@ -121,12 +121,14 @@
         <table>
             <tr>
                 <th>Category</th>
-                <th>Delete</th>
+                <!--<th>Delete</th>-->
                 <th>Edit</th>
             </tr>
             <c:forEach var="categoryDB" items="${categories}">
                 <tr>
                     <td>${categoryDB.categoryName}</td>
+                    <!--- Works but would not advise using due to DB errors. 
+                    If you want to test be sure to uncomment the 'delete' on the bottom of the AdminServlet Page.
                     <td>
                         <form method="post" >
                             <input type="submit" value="Delete">
@@ -134,6 +136,7 @@
                             <input type="hidden" name="selectedCat" value="${categoryDB.categoryID}">
                         </form>
                     </td>
+                    --->
                     <td>
                         <form action="admin" method="get">
                             <input type="submit" value="Edit">

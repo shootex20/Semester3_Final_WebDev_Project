@@ -205,21 +205,7 @@ public class AdminServlet extends HttpServlet {
         
         //Categories Start
         
-        if(action.equals("deleteCat"))
-        {
-            int catID = Integer.parseInt(request.getParameter("selectedCat"));
-                CategoriesDB catDB = new CategoriesDB();
-                Categories cat = new Categories();
-                cat = (Categories) catDB.getCategory(catID);
-            try {
-                catDB.delete(cat);
-                doGet(request, response);
-            } catch (Exception ex) {
-                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }
-        else if(action.equals("addCat"))
+         if(action.equals("addCat"))
         {
             CategoriesDB catDB = new CategoriesDB();
             String categoryName = request.getParameter("nameOfCat");
@@ -246,6 +232,23 @@ public class AdminServlet extends HttpServlet {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }  
         }
+        /* <--- Works however would not advise using, will cause issues in the DB --->
+        else if(action.equals("deleteCat"))
+        {
+            int catID = Integer.parseInt(request.getParameter("selectedCat"));
+                CategoriesDB catDB = new CategoriesDB();
+                Categories cat = new Categories();
+                cat = (Categories) catDB.getCategory(catID);
+            try {
+                catDB.delete(cat);
+                doGet(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+         */
+
         //Categories end.
     }
 
