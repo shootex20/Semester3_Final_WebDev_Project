@@ -13,7 +13,7 @@
         <title>Inventory Page</title>
     </head>
     <body>
-        <h1>Home Inventory</h1>
+        <h1>HOME nVentory</h1>
         <br>
         <br>
         <h4>Menu</h4>

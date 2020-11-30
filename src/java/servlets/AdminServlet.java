@@ -29,12 +29,15 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//               request.setAttribute("showEdit", "hidden");
-//               request.setAttribute("showAdd", "");
         String action = request.getParameter("action");
         UserDB userDB1 = new UserDB();
 
-        AccountService as = new AccountService();
+        try {
+            List<Users> users = (List<Users>) userDB1.getAll();
+            request.setAttribute("users", users);
+        } catch (Exception ex) {
+            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (action != null && action.equals("view")) {
             String selectedUsername = request.getParameter("selectedUsername");
@@ -62,12 +65,7 @@ public class AdminServlet extends HttpServlet {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        try {
-            List<Users> users = (List<Users>) as.getAll();
-            request.setAttribute("users", users);
-        } catch (Exception ex) {
-            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
 
         getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
     }
@@ -79,6 +77,7 @@ public class AdminServlet extends HttpServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
+
 
         if (action.equals("delete")) {
             try {
@@ -102,23 +101,23 @@ public class AdminServlet extends HttpServlet {
                 doGet(request, response);
             }
         }
-        if (action.equals("save")) {
-            AccountService us = new AccountService();
+        if (action.equals("add")) {
+            UserDB userDB = new UserDB();
             String addusername = request.getParameter("username");
             String addpassword = request.getParameter("password");
             String addemail = request.getParameter("email");
             String addfirstname = request.getParameter("firstname");
             String addlastname = request.getParameter("lastname");
 
-//            Users user = new Users(addusername, addpassword, addemail, addfirstname, addlastname, true, false);
+           Users user = new Users(addusername, addpassword, addemail, addfirstname, addlastname, true, false);
 
             try {
-                us.insert(addusername, addpassword, addemail, addfirstname, addlastname);
+                userDB.insert(user);
                 doGet(request, response);
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("displayMessage", "Uh-oh! Something went wrong.");
-                doGet(request, response);
+                //doGet(request, response);
             }
         }
         if (action.equals("edit")) {
@@ -132,8 +131,27 @@ public class AdminServlet extends HttpServlet {
             String editemail = request.getParameter("email");
             String editfirstname = request.getParameter("firstname");
             String editlastname = request.getParameter("lastname");
-            String editisactive = request.getParameter("useractive");
-            String editisadmin = request.getParameter("useradmin");
+            Boolean editisactive = Boolean.parseBoolean(request.getParameter("useractive"));
+            Boolean editisadmin = Boolean.parseBoolean(request.getParameter("useractive"));
+            
+            if(editisactive == true)
+            {
+                userIsActive = true;
+            }
+            else
+            {
+                userIsActive = false;
+            }
+            
+            if(editisadmin == true)
+            {
+                adminIsActive = true;
+            }
+            else
+            {
+               adminIsActive = false; 
+            }
+            
             try {
                 us.update(editUser, editPassword, editfirstname, editlastname, editemail, userIsActive, adminIsActive);
                 doGet(request, response);

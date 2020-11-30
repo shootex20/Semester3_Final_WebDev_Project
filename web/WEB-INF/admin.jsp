@@ -19,7 +19,7 @@
         <title>Administrator Page</title>
     </head>
     <body>
-        <h1>Home Inventory</h1>
+        <h1>HOME nVentory</h1>
         <br>
         <h3>Menu</h3>
         <a href="inventory" name="inventory">Inventory</a>
@@ -82,33 +82,33 @@
                 First Name: <input type="text" name="firstname" value="${selectedUser.firstName}"><br>
                 Last Name: <input type="text" name="lastname" value="${selectedUser.lastName}"><br>
                 User is Active(Check for yes, uncheck for no): 
-                <c:choose>
-                 <c:when test="${selectedUser.active==true}">
-                   <input type="checkbox" id="chk" name="useractive" 
-                        value="${selectedUser.active}" checked="checked"/>
-                 </c:when>
-                 <c:otherwise>
-                     <input type="checkbox" id="chk" name="useractive" 
-                           value="${selectedUser.active}"/>
-                 </c:otherwise>
-              </c:choose>
-                <br>
-                User is a Admin(Check for yes, uncheck for no): 
-                <c:choose>
-                 <c:when test="${selectedUser.isAdmin==true}">
-                   <input type="checkbox" id="chk" name="useradmin" 
-                        value="${selectedUser.isAdmin}" checked="checked"/>
-                 </c:when>
-                 <c:otherwise>
-                     <input type="checkbox" id="chk" name="useradmin" 
-                           value="${selectedUser.isAdmin}"/>
-                 </c:otherwise>
-              </c:choose>
-                     <br>
-                <input type="hidden" name="action" value="edit">
-                <input type="submit" value="Save">
-            </form>
-        </c:if>
+                    <c:choose>
+                     <c:when test="${selectedUser.active==true}">
+                       <input type="checkbox" id="chk" name="useractive" 
+                            value="true" checked="checked"/>
+                     </c:when>
+                     <c:otherwise>
+                         <input type="checkbox" id="chk" name="useractive" 
+                               value="false"/>
+                     </c:otherwise>
+                  </c:choose>
+                    <br>
+                    User is a Admin(Check for yes, uncheck for no): 
+                    <c:choose>
+                     <c:when test="${selectedUser.isAdmin==true}">
+                       <input type="checkbox" id="chk" name="useradmin" 
+                            value="true" checked="checked"/>
+                     </c:when>
+                     <c:otherwise>
+                         <input type="checkbox" id="chk" name="useradmin" 
+                               value="false"/>
+                     </c:otherwise>
+                  </c:choose>
+                         <br>
+                    <input type="hidden" name="action" value="edit">
+                    <input type="submit" value="Save">
+                </form>
+            </c:if>
             <br>
            ${displayMessage}
         <br>

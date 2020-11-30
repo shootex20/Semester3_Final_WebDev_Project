@@ -7,6 +7,7 @@ package dataaccess;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import models.Categories;
 
@@ -22,6 +23,22 @@ public class CategoriesDB {
           TypedQuery<Categories> query = em.createNamedQuery("Categories.findAll", Categories.class);
          List<Categories> results = query.getResultList();
             return results;
+    }
+    public int insert(Categories cat) throws Exception {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+
+        try {
+            trans.begin();
+            em.persist(cat);
+            trans.commit();
+        }catch (Exception ex) {
+            trans.rollback();
+        }finally {
+            em.close();
+            return 1;
+        
+        }
     }
     
 }

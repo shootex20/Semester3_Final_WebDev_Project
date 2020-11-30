@@ -13,7 +13,7 @@
     </head>
     
     <body>
-        <h1>Home Inventory</h1>
+        <h1>HOME nVentory</h1>
         <br>
         <h3>Login</h3>
         <br>
