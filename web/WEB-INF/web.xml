@@ -25,6 +25,14 @@
         <servlet-name>AdminServlet</servlet-name>
     </filter-mapping>
         <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>servlets.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+        <servlet>
         <servlet-name>ManageUserServlet</servlet-name>
         <servlet-class>servlets.ManageUserServlet</servlet-class>
     </servlet>

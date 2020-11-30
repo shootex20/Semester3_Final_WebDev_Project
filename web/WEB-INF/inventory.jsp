@@ -14,12 +14,14 @@
          width: 30%;
         }
     
-        </style>
+    </style>
         
     <head>
+        <link rel="shortcut icon" href="#">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Inventory Page</title>
     </head>
+    
     <body>
         <h1>HOME nVentory</h1>
         <br>

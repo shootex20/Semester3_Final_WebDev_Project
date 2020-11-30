@@ -27,7 +27,10 @@
         <input type="submit" name="login" value="Login">
         <br>
         <br>
-        ${displayMessage}
+        <p>Don't have an account? <a href="register" name="register">Create one!</a></p>
+        <br>
+        <br>
+        <h4>${displayMessage}</h4>
 </form>
     </body>
 </html>
