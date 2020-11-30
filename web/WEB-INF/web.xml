@@ -12,6 +12,10 @@
         <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>AdminServlet</servlet-name>
     </filter-mapping>
+        <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <servlet-name>ManageUserServlet</servlet-name>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>InventoryServlet</servlet-name>
@@ -20,6 +24,14 @@
         <filter-name>AdminFilter</filter-name>
         <servlet-name>AdminServlet</servlet-name>
     </filter-mapping>
+        <servlet>
+        <servlet-name>ManageUserServlet</servlet-name>
+        <servlet-class>servlets.ManageUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageUserServlet</servlet-name>
+        <url-pattern>/manageuser</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>servlets.LoginServlet</servlet-class>

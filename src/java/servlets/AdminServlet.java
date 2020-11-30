@@ -5,6 +5,8 @@
  */
 package servlets;
 
+import dataaccess.CategoriesDB;
+import dataaccess.ItemsDB;
 import dataaccess.UserDB;
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Categories;
+import models.HomeItems;
 import models.Users;
 import services.AccountService;
 
@@ -31,8 +35,11 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         UserDB userDB1 = new UserDB();
+        CategoriesDB catDB = new CategoriesDB();
 
         try {
+            List<Categories> categories = (List<Categories>) catDB.getAll();
+            request.setAttribute("categories", categories);
             List<Users> users = (List<Users>) userDB1.getAll();
             request.setAttribute("users", users);
         } catch (Exception ex) {
@@ -65,8 +72,19 @@ public class AdminServlet extends HttpServlet {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-       
-
+            
+            
+        if (action != null && action.equals("viewCat")) {
+            String selectedCat = request.getParameter("selectedCat");
+            int catNum = Integer.parseInt(selectedCat);
+            try {
+            
+                Categories cat = catDB.getCategory(catNum);
+                request.setAttribute("selectedCat", cat);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
     }
 
@@ -78,7 +96,7 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
 
-
+        //Users edit/del/add START
         if (action.equals("delete")) {
             try {
                 String usern = request.getParameter("selectedUsername");
@@ -86,6 +104,16 @@ public class AdminServlet extends HttpServlet {
                 Users user = new Users();
                 user = (Users) userDB.getUser(usern);
                 Users adminUser = userDB.getUser(username);
+                
+                //Deletes all users items.
+                ItemsDB userItems = new ItemsDB();
+                List<HomeItems> usersHomeItems = userItems.getAll(usern);
+                
+                for(int i = 0; i < usersHomeItems.size(); i++)
+                {
+                    userItems.delete(usersHomeItems.get(i));
+                }
+                
                 if (!user.equals(adminUser)) {
                     userDB.delete(user);
                     request.setAttribute("displayMessage", "Successfully deleted user.");
@@ -110,14 +138,34 @@ public class AdminServlet extends HttpServlet {
             String addlastname = request.getParameter("lastname");
 
            Users user = new Users(addusername, addpassword, addemail, addfirstname, addlastname, true, false);
+           List<Users> userList = null;
+           
+            try {
+                userList = (List<Users>)userDB.getAll();
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            for(int i = 0; i < userList.size(); i++)
+            {
+                if(userList.get(i).getUsername().equals(username))
+                {
+                request.setAttribute("displayMessage", "Username cannot be the same as another user!");
+                doGet(request, response);
+                }
+                else if(userList.get(i).getEmail().equals(addemail))
+                {
+                request.setAttribute("displayMessage", "Email is already taken.");
+                doGet(request, response);
+                }
+            }
 
             try {
                 userDB.insert(user);
                 doGet(request, response);
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("displayMessage", "Uh-oh! Something went wrong.");
-                //doGet(request, response);
+                request.setAttribute("displayMessage", "Uh-oh! Something went wrong when adding the user.");
+                doGet(request, response);
             }
         }
         if (action.equals("edit")) {
@@ -160,8 +208,53 @@ public class AdminServlet extends HttpServlet {
             }
 
         }
-
-        getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
+        
+        //Users END
+        
+        //Categories Start
+        
+        if(action.equals("deleteCat"))
+        {
+            int catID = Integer.parseInt(request.getParameter("selectedCat"));
+                CategoriesDB catDB = new CategoriesDB();
+                Categories cat = new Categories();
+                cat = (Categories) catDB.getCategory(catID);
+            try {
+                catDB.delete(cat);
+                doGet(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        else if(action.equals("addCat"))
+        {
+            CategoriesDB catDB = new CategoriesDB();
+            String categoryName = request.getParameter("nameOfCat");
+            
+            Categories newCat = new Categories(categoryName);
+            
+            try {
+                catDB.insert(newCat);
+                doGet(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }   
+        }
+        else if(action.equals("editCat"))
+        {
+            CategoriesDB catDB = new CategoriesDB();
+            int categoryID = Integer.parseInt(request.getParameter("catID"));
+            String catName = request.getParameter("nameOfCat");
+            Categories catUpdate = new Categories(categoryID, catName);
+            try {
+                catDB.update(catUpdate);
+                doGet(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+        }
+        //Categories end.
     }
 
 }

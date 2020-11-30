@@ -40,5 +40,44 @@ public class CategoriesDB {
         
         }
     }
+    public int delete(Categories cat) throws Exception {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();  
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.remove(em.merge(cat));
+            trans.commit();
+        } catch(Exception ex){
+            trans.rollback();
+        } finally {
+            em.close();
+            return 1;
+        }
+    }
+        public int update(Categories cat) throws Exception {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();  
+        EntityTransaction trans = em.getTransaction();
+       try {
+            trans.begin();
+            em.merge(cat);
+            trans.commit();
+        } catch(Exception ex){
+            trans.rollback();
+        } finally {
+            em.close();
+            return 1;
+        } 
+    }
+    
+        public Categories getCategory(int catID){
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        
+        try {
+            Categories user = em.find(Categories.class, catID);
+            return user;
+        } finally {
+            em.close();
+        }
+    }
     
 }

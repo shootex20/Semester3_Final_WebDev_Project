@@ -48,6 +48,11 @@ public class Categories implements Serializable {
 
     public Categories() {
     }
+    
+    public Categories(String categoryName)
+    {
+        this.categoryName = categoryName;
+    }
 
     public Categories(Integer categoryID) {
         this.categoryID = categoryID;

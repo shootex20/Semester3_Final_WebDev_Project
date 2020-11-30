@@ -6,6 +6,7 @@
 package servlets;
 
 import dataaccess.CategoriesDB;
+import dataaccess.ItemsDB;
 import dataaccess.UserDB;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -34,14 +35,25 @@ public class InventoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+                String action = request.getParameter("action");
         Inventory inv = new Inventory();
-        
-        
-
         HttpSession session = request.getSession();
 
         String username = (String) session.getAttribute("username");
+        
+        if (action != null && action.equals("view")) {
+            String selectedItemID = request.getParameter("selectedItem");
+            int itemID = Integer.parseInt(selectedItemID);
+            try {
+                HomeItems itemToEdit = new HomeItems();
+                itemToEdit = inv.get(itemID);
+                request.setAttribute("selectedItem", itemToEdit);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "error has occoured.");
+                doGet(request, response);
+            }
+        }
 
         try {
             List<HomeItems> homeitems = (List<HomeItems>) inv.getAll(username);
@@ -94,10 +106,9 @@ public class InventoryServlet extends HttpServlet {
 
             //Gives total inventory.
             request.setAttribute("total", info);
+           
 
-            request.getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
-
-        
+        request.getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response); 
     }
 
     @Override
@@ -112,21 +123,19 @@ public class InventoryServlet extends HttpServlet {
         Inventory inv = new Inventory();
 
         String action = request.getParameter("action");
-        String category = request.getParameter("category");
-        String itemName = request.getParameter("itemnames");
-        String inputPrice = request.getParameter("itemprice");
         
         
 
         if(action.equals("Add"))
         {
-            
-                    //Checks category List
+        String category = request.getParameter("category");
+        String itemName = request.getParameter("itemnames");
+        String inputPrice = request.getParameter("itemprice");
+        //Checks category List
         CategoriesDB catdb = new CategoriesDB();
         
         List<Categories> cat = null;
         
-        int catNum = 0;
         Categories catObj = null;
         
         try {
@@ -164,9 +173,9 @@ public class InventoryServlet extends HttpServlet {
                 doGet(request, response);
             }
         }
-        if(action.equals("Delete"))
+        else if(action.equals("Delete"))
         {
-                    String id = request.getParameter("itemID");
+            String id = request.getParameter("itemID");
             System.out.print(id);
             int intid = Integer.parseInt(id);
             try {
@@ -178,6 +187,63 @@ public class InventoryServlet extends HttpServlet {
             }
 
         }
+        /* NOT FULLY FUNCTIONAL
+        else if(action.equals("Save"))
+        {
+        ItemsDB itemsDB = new ItemsDB();
+        CategoriesDB catdb = new CategoriesDB();
+        int itemID = Integer.parseInt(request.getParameter("itemID"));
+        int categoryUpdate = Integer.parseInt(request.getParameter("category1"));
+        String itemNameUpdate = request.getParameter("itemnames");
+        try
+        {
+        Double inputPriceUpdate = Double.parseDouble(request.getParameter("itemprice"));
+        
+        if(inputPriceUpdate < 0)
+        {
+            request.setAttribute("message", "Number cannot be negative!");
+            doGet(request, response);
+        }
+        
+        
+
+        
+        List<Categories> cat = null;
+        
+        Categories catObj = null;
+        
+        try {
+            cat = (List<Categories>) catdb.getAll();
+        } catch (Exception ex) {
+            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        for(int i = 0; i < cat.size(); i++)
+        {
+            if(cat.get(i).getCategoryID().equals(categoryUpdate))
+            {
+                catObj = cat.get(i);
+            }
+        }
+        
+        HomeItems hi = new HomeItems(itemID, catObj, itemNameUpdate, inputPriceUpdate);
+        itemsDB.update(hi);
+                
+           doGet(request, response); 
+        }
+        catch(NumberFormatException ex)
+        {
+        request.setAttribute("message", "Please input a number.");
+        doGet(request, response);
+        }   catch (Exception ex) {
+                Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        doGet(request, response);    
+*/
     }
 
 }

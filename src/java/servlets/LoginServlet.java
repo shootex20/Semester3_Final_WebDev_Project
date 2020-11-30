@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         if (logout != null) {
             session.invalidate();
             request.setAttribute("displayMessage", "Logged out.");
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            //getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }

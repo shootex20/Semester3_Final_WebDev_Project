@@ -8,9 +8,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-        <style>
+    <style>
         table, th, td {
          border: 1px solid black;
+         width: 30%;
         }
     </style>
     <head>
@@ -25,6 +26,8 @@
         <a href="inventory" name="inventory">Inventory</a>
         <br>
         <a href="admin" name="admin">Admin</a>
+        <br>
+        <a href="manageuser" name="manageuser">Manage Account</a>
         <br>
         <a href="login?logout" name="logout">Logout</a>
         <br>
@@ -68,7 +71,7 @@
                 Email: <input type="email" name="email"><br>
                 First Name: <input type="text" name="firstname"><br>
                 Last Name: <input type="text" name="lastname"><br>
-
+                <br>
                 <input type="hidden" name="action" value="add">
                 <input type="submit" value="Save">
             </form>
@@ -81,7 +84,7 @@
                 Email: <input type="email" name="email" value="${selectedUser.email}"><br>
                 First Name: <input type="text" name="firstname" value="${selectedUser.firstName}"><br>
                 Last Name: <input type="text" name="lastname" value="${selectedUser.lastName}"><br>
-                User is Active(Check for yes, uncheck for no): 
+                User is Active (Check for yes, uncheck for no): 
                     <c:choose>
                      <c:when test="${selectedUser.active==true}">
                        <input type="checkbox" id="chk" name="useractive" 
@@ -93,7 +96,7 @@
                      </c:otherwise>
                   </c:choose>
                     <br>
-                    User is a Admin(Check for yes, uncheck for no): 
+                    User is a Administrator (Check for yes, un-check for no): 
                     <c:choose>
                      <c:when test="${selectedUser.isAdmin==true}">
                        <input type="checkbox" id="chk" name="useradmin" 
@@ -105,12 +108,63 @@
                      </c:otherwise>
                   </c:choose>
                          <br>
+                         <br>
                     <input type="hidden" name="action" value="edit">
                     <input type="submit" value="Save">
                 </form>
             </c:if>
             <br>
            ${displayMessage}
+           <br>
+        <h2>Manage Categories</h2>
+        <br>
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+            <c:forEach var="categoryDB" items="${categories}">
+                <tr>
+                    <td>${categoryDB.categoryName}</td>
+                    <td>
+                        <form method="post" >
+                            <input type="submit" value="Delete">
+                            <input type="hidden" name="action" value="deleteCat">
+                            <input type="hidden" name="selectedCat" value="${categoryDB.categoryID}">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="admin" method="get">
+                            <input type="submit" value="Edit">
+                            <br>
+                            <input type="hidden" name="action" value="viewCat">
+                            <input type="hidden" name="selectedCat" value="${categoryDB.categoryID}">
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        
+        <c:if test="${selectedCat == null}">
+            <h2>Add Category</h2>
+            <form method="POST">
+                Category Name: <input type="text" name="nameofCat" value="${selectedCat.categoryName}"><br>
+                <br>
+                <input type="hidden" name="action" value="addCat">
+                <input type="submit" value="Save">
+            </form>
+        </c:if>
+        <c:if test="${selectedCat != null}">
+            <h2>Edit Category</h2>
+            <form action="admin" method="POST">
+                Category Name: <input type="text" name="nameOfCat" value="${selectedCat.categoryName}">
+                <input type="hidden" name="catID" value="${selectedCat.categoryID}"><br>
+                <br>
+                    <input type="hidden" name="action" value="editCat">
+                    <input type="submit" value="Save">
+                </form>
+            </c:if>
         <br>
     </body>
 </html>
