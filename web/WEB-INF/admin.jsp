@@ -16,24 +16,57 @@
     </style>
     <head>
         <link rel="shortcut icon" href="#">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
         <title>Administrator Page</title>
     </head>
     <body>
-        <h1>HOME nVentory</h1>
+        <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="inventory">
+                    Home nVentory
+                </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="inventory" name="inventory">
+                        Home
+                    </a>
+
+                    <a class="navbar-item" href="manageuser">
+                        Manage Account
+                    </a>
+                        <a class="navbar-item" href="admin">
+                            Admin Panel
+                        </a>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary" href="login?logout" name="logout">
+                                <strong>Logout</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
         <br>
-        <h3>Menu</h3>
-        <a href="inventory" name="inventory">Inventory</a>
-        <br>
-        <a href="admin" name="admin">Admin</a>
-        <br>
-        <a href="manageuser" name="manageuser">Manage Account</a>
-        <br>
-        <a href="login?logout" name="logout">Logout</a>
-        <br>
-        <h2>Manage Users</h2>
-        <br>            
-                <table>
+        <h2 class="title is-2" style="text-align: center">Manage Users</h2>
+        <br> 
+        <div class="container">
+            <div class="card">
+            <div class="card-content">
+              <div class="content">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <tr>
                 <th>Username</th>
                 <th>First Name</th>
@@ -48,14 +81,14 @@
                     <td>${user.lastName}</td>
                     <td>
                         <form method="post" >
-                            <input type="submit" value="Delete">
+                            <input class="button is-danger" type="submit" value="Delete">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="selectedUsername" value="${user.username}">
                         </form>
                     </td>
                     <td>
                         <form action="admin" method="get">
-                            <input type="submit" value="Edit">
+                            <input class="button is-info" type="submit" value="Edit">
                             <input type="hidden" name="action" value="view">
                             <input type="hidden" name="selectedUsername" value="${user.username}">
                         </form>
@@ -64,26 +97,26 @@
             </c:forEach>
         </table>
         <c:if test="${selectedUser == null}">
-            <h2>Add User</h2>
+            <h2 class="title is-5">Add User</h2>
             <form method="POST">
-                Username: <input type="text" name="username"><br>
-                Password: <input type="password" name="password"><br>
-                Email: <input type="email" name="email"><br>
-                First Name: <input type="text" name="firstname"><br>
-                Last Name: <input type="text" name="lastname"><br>
+                Username: <input  class="input is-medium"  type="text" name="username"><br>
+                Password: <input class="input is-medium"  type="password" name="password"><br>
+                Email: <input class="input is-medium"  type="email" name="email"><br>
+                First Name: <input class="input is-medium"  type="text" name="firstname"><br>
+                Last Name: <input class="input is-medium"  type="text" name="lastname"><br>
                 <br>
                 <input type="hidden" name="action" value="add">
-                <input type="submit" value="Save">
+                <input class="button is-info is-light" type="submit" value="Save">
             </form>
         </c:if>
         <c:if test="${selectedUser != null}">
             <h2>Edit User</h2>
             <form action="admin" method="POST">
-                Username: <input type="text" name="username" value="${selectedUser.username}" readonly><br>
-                Password: <input type="password" name="password" value="${selectedUser.password}"><br>
-                Email: <input type="email" name="email" value="${selectedUser.email}"><br>
-                First Name: <input type="text" name="firstname" value="${selectedUser.firstName}"><br>
-                Last Name: <input type="text" name="lastname" value="${selectedUser.lastName}"><br>
+                Username: <input class="input is-medium" type="text" name="username" value="${selectedUser.username}" readonly><br>
+                Password: <input class="input is-medium" type="password" name="password" value="${selectedUser.password}"><br>
+                Email: <input class="input is-medium" type="email" name="email" value="${selectedUser.email}"><br>
+                First Name: <input class="input is-medium" type="text" name="firstname" value="${selectedUser.firstName}"><br>
+                Last Name: <input class="input is-medium" type="text" name="lastname" value="${selectedUser.lastName}"><br>
                 User is Active (Check for yes, uncheck for no): 
                     <c:choose>
                      <c:when test="${selectedUser.active==true}">
@@ -110,15 +143,22 @@
                          <br>
                          <br>
                     <input type="hidden" name="action" value="edit">
-                    <input type="submit" value="Save">
+                    <input class="button is-info is-light" type="submit" value="Save">
                 </form>
             </c:if>
             <br>
            ${displayMessage}
            <br>
-        <h2>Manage Categories</h2>
+                          </div>
+  </div>
+</div>
+           <br>
+        <h2 class="title is-2" style="text-align: center">Manage Categories</h2>
         <br>
-        <table>
+                    <div class="card">
+            <div class="card-content">
+              <div class="content">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <tr>
                 <th>Category</th>
                 <!--<th>Delete</th>-->
@@ -139,7 +179,7 @@
                     --->
                     <td>
                         <form action="admin" method="get">
-                            <input type="submit" value="Edit">
+                            <input  class="button is-info" type="submit" value="Edit">
                             <br>
                             <input type="hidden" name="action" value="viewCat">
                             <input type="hidden" name="selectedCat" value="${categoryDB.categoryID}">
@@ -150,24 +190,28 @@
         </table>
         
         <c:if test="${selectedCat == null}">
-            <h2>Add Category</h2>
+            <h2 class="title is-5">Add Category</h2>
             <form method="POST">
-                Category Name: <input type="text" name="nameofCat" value="${selectedCat.categoryName}"><br>
+                Category Name: <input class="input is-medium" type="text" name="nameofCat" value="${selectedCat.categoryName}"><br>
                 <br>
                 <input type="hidden" name="action" value="addCat">
-                <input type="submit" value="Save">
+                <input class="button is-info is-light" type="submit" value="Save">
             </form>
         </c:if>
         <c:if test="${selectedCat != null}">
-            <h2>Edit Category</h2>
+            <h2 class="title is-5">Edit Category</h2>
             <form action="admin" method="POST">
                 Category Name: <input type="text" name="nameOfCat" value="${selectedCat.categoryName}">
                 <input type="hidden" name="catID" value="${selectedCat.categoryID}"><br>
                 <br>
                     <input type="hidden" name="action" value="editCat">
-                    <input type="submit" value="Save">
+                    <input class="button is-info is-light" type="submit" value="Save">
                 </form>
             </c:if>
         <br>
+        </div>
+            </div>
+                    </div>
+        </div>
     </body>
 </html>

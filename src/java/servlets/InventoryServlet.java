@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import models.Categories;
 import models.HomeItems;
 import models.Users;
+import services.AccountService;
 import services.Inventory;
 
 /**
@@ -40,6 +41,17 @@ public class InventoryServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         String username = (String) session.getAttribute("username");
+        
+        AccountService as = new AccountService();
+        
+        ArrayList<Users> userList = null;
+        
+        try {
+            userList = (ArrayList<Users>) as.getAll();
+        } catch (Exception ex) {
+            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         if (action != null && action.equals("view")) {
             String selectedItemID = request.getParameter("selectedItem");
@@ -69,6 +81,8 @@ public class InventoryServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        session.setAttribute("hiddenUser", user.getIsAdmin());
+        
         String firstlast = user.getFirstName() + " " + user.getLastName();
             session.setAttribute("nameofinventory", firstlast);
             
@@ -105,7 +119,7 @@ public class InventoryServlet extends HttpServlet {
             String info = "Total value in inventory: $" + totalPrice;
 
             //Gives total inventory.
-            request.setAttribute("total", info);
+            request.setAttribute("total", totalPrice);
            
 
         request.getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response); 

@@ -36,7 +36,7 @@ public class ManageUserServlet extends HttpServlet {
         
         Users user = new Users();
         user = userDB.getUser(username);
-        
+        request.setAttribute("hiddenUser", user.getIsAdmin());
         request.setAttribute("selectedUser", user);
          if(user.getActive() == true)
                 {
