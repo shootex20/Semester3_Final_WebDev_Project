@@ -33,7 +33,7 @@
                     Home nVentory
                 </a>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -81,37 +81,36 @@
                 <div class="card-content">
                     <div class="content">
                         <table class="table is-bordered is-striped is-narrow is-hoverable">
-                            <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Delete</th>
+                            </tr>
+
+
+                            <c:forEach items="${homeitems}" var="homeitem">
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Delete</th>
+                                    <td>${homeitem.category.categoryName}</td>
+                                    <td>${homeitem.itemName}</td>
+                                    <td><fmt:formatNumber value="${homeitem.price}" type="currency"/></td>
+                                    <td>
+                                        <form method="post"> 
+                                            <div class="buttons are-small">
+                                                <input type="submit" class="button is-danger" name="action" value="Delete">
+                                                <input type="hidden" name="itemID" value="${homeitem.itemID}">
+                                            </div>
+                                        </form>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tfoot>
-                                <c:forEach items="${homeitems}" var="homeitem">
-                                    <tr>
-                                        <td>${homeitem.category.categoryName}</td>
-                                        <td>${homeitem.itemName}</td>
-                                        <td><fmt:formatNumber value="${homeitem.price}" type="currency"/></td>
-                                        <td>
-                                            <form method="post"> 
-                                                <div class="buttons are-small">
-                                                    <input type="submit" class="button is-danger" name="action" value="Delete">
-                                                    <input type="hidden" name="itemID" value="${homeitem.itemID}">
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tfoot>
+                            </c:forEach>
+
                         </table>
 
 
                         <br>
                         <br>
-                        <h3 class="title is-3" >Add Item</h3>
+                        <h3 class="title is-3" style="text-align: center">Add Item</h3>
                         <form method="post">
                             <br>
                             <label for="category">Category:     </label>

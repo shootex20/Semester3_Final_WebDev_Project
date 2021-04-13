@@ -9,19 +9,28 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script>document.addEventListener('DOMContentLoaded', () => {
+                (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                    const $notification = $delete.parentNode;
+
+                    $delete.addEventListener('click', () => {
+                        $notification.parentNode.removeChild($notification);
+                    });
+                });
+            });</script>
         <meta http-equiv="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
         <title>Home nVentory Registration</title>
     </head>
     <body>
-        
-                <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+
+        <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="inventory">
                     Home nVentory
                 </a>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -40,28 +49,34 @@
                 </div>
             </div>
         </nav>
-        <br>
-            <h2 class="title is-2" style="text-align: center">Register</h2>
-            <div class="container">
-            <div class="card">
-        <div class="card-content">
-          <div class="content">
-            <form method="POST">
-                Username: <input class="input is-medium" type="text" name="username"><br>
-                Password: <input class="input is-medium" type="password" name="password"><br>
-                Confirm Password <input class="input is-medium" type="password" name="passwordConfirm"> <br>
-                Email: <input class="input is-medium" type="email" name="email"><br>
-                Confirm Email: <input class="input is-medium" type="email" name="emailConfirm"><br>
-                First Name: <input class="input is-medium" type="text" name="firstname"><br>
-                Last Name: <input class="input is-medium" type="text" name="lastname"><br>
-                <br>
-                <input type="hidden" name="action" value="add">
-                <input class="button is-success" type="submit" value="Register">
-            </form>
-            <h3> ${message} </h3>
-                </div>
-        </div>
-      </div>
+        <c:if test="${not empty message}">
+            <div class="notification is-link is-light">
+                <button class="delete"></button>
+                <p>${message}</p>
             </div>
+        </c:if>
+        <br>
+        <br>
+        <h2 class="title is-2" style="text-align: center">Register</h2>
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                        <form method="POST">
+                            Username: <input class="input is-medium" type="text" name="username"><br>
+                            Password: <input class="input is-medium" type="password" name="password"><br>
+                            Confirm Password <input class="input is-medium" type="password" name="passwordConfirm"> <br>
+                            Email: <input class="input is-medium" type="email" name="email"><br>
+                            Confirm Email: <input class="input is-medium" type="email" name="emailConfirm"><br>
+                            First Name: <input class="input is-medium" type="text" name="firstname"><br>
+                            Last Name: <input class="input is-medium" type="text" name="lastname"><br>
+                            <br>
+                            <input type="hidden" name="action" value="add">
+                            <input class="button is-success" type="submit" value="Register">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

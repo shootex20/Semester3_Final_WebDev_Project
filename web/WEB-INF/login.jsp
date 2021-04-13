@@ -26,7 +26,7 @@
         <h1 class="title" style="text-align: center">Home nVentory</h1>
         <br>
         <div class="container">
-             <c:if test="${not empty displayMessage}">
+            <c:if test="${not empty displayMessage}">
                 <div class="notification is-link is-light">
                     <button class="delete"></button>
                     <p>${displayMessage}</p>
@@ -41,25 +41,25 @@
                     <br>
                     <form method="post">
                         <div class="container">
-                        <div class="field">
+                            <div class="field">
 
-                        <label for="title">Username: </label>
-                        <input class="input" type="text" name="username" placeholder="Username" value="${username}">
+                                <label for="title">Username: </label>
+                                <input class="input" type="text" name="username" placeholder="Username" value="${username}">
 
-                          </div>
-                          <div class="field">
+                            </div>
+                            <div class="field">
 
-                              <label for="title">Password: </label>
-                              <input class="input" type="password" name="password" value="${password}" placeholder="Password">
+                                <label for="title">Password: </label>
+                                <input class="input" type="password" name="password" value="${password}" placeholder="Password">
 
-                          </div>
-                        <br>
-                        <input type="submit" class="button is-info is-light" name="login" value="Login">
-                        <br>
-                        <br>
-                        <p>Don't have an account? <a href="register" name="register">Create one!</a></p>
-                        <br>
-                        <br>
+                            </div>
+                            <br>
+                            <input type="submit" class="button is-info is-light" name="login" value="Login">
+                            <br>
+                            <br>
+                            <p>Don't have an account? <a href="register" name="register">Create one!</a></p>
+                            <br>
+                            <br>
                         </div>
                     </form>
                 </div>

@@ -25,10 +25,10 @@
         <h1>Uh-oh!</h1>
         <br>
         <br>
-        <h1>Error 404</h1>
+        <h1 class="title is-1" style="text-align: center">Error 404</h1>
         <!--<img src="/WEB-INF/images/sad.png" />-->
-        <h3>Looks like you didn't find the page requested it may not exist or may be not be available!
+        <h3 class="title is-3" style="text-align: center">Looks like you didn't find the page requested it may not exist or may be not be available!
             <br>
-        To go back to the menu, click <a href="login">here</a>.</h3>
+            To go back to the menu, click <a href="login">here</a>.</h3>
     </body>
 </html>
